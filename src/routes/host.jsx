@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import MicrophoneButton from "../components/MicrophoneButton";
-import MusicControls from "../components/MusicControls";
 import { io } from "socket.io-client";
 import { Radio } from "react-feather";
 
@@ -14,7 +13,6 @@ function Host() {
             <h1 className="text-5xl font-bold">Broadcast</h1>
             <Radio size={48} className="mb-4" />
             <MicrophoneButton socket={socketRef.current} />
-            <MusicControls socket={socketRef.current} />
         </div>
     );
 }

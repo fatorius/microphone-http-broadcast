@@ -1,13 +1,16 @@
-import { useRef } from "react";
-import { io } from "socket.io-client";
-import useAudioStreamer from "../hooks/useAudioStreamer";
+import React from "react";
 import { Headphones } from "react-feather";
 
-const URL = "http://localhost:3000";
-
 function Listen() {
-    const socketRef = useRef(io(URL));
-    useAudioStreamer(socketRef.current);
+    let baseUrl = "http://localhost:3000/audio";
+    React.useEffect(()=>{
+        let audioEl = document.getElementById("myplayer");
+        audioEl.addEventListener("ended", ()=>{
+            audioEl.src = baseUrl + "?a=" + new Date().getTime();
+            audioEl.currentTime = 0;
+            audioEl.load();
+        });
+    }, []);
 
     return (
         <div className="flex flex-col items-center h-full">
@@ -15,7 +18,7 @@ function Listen() {
             <div className="rounded-full bg-gray-700 p-6 mt-5">
                 <Headphones size={50} />
             </div>
-            <audio src={`${URL}/stream`} autoPlay />
+            <audio id="myplayer" controls src={`http://localhost:3000/audio`} autoPlay/>
         </div>
     );
 }

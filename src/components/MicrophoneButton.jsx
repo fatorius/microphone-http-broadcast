@@ -1,34 +1,42 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { Mic, MicOff } from "react-feather";
-import { AudioRecorder } from "jnaudiostream";
 
 export default function MicrophoneButton({ socket }) {
     const [recording, setRecording] = useState(false);
 
-    const recorderRef = useRef(new AudioRecorder({}, 1000));
+    let stream;
+    let i;
 
-    useEffect(() => {
-        if (!socket) return;
-        const recorder = recorderRef.current;
+    useEffect(()=>{
+        let getMic = async () => {
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        }
 
-        recorder.onReady = (packet) => {
-            console.log("Recording started!");
-            console.log(packet);
-            console.log("Header size: " + packet.data.size + "bytes");
-            socket.emit("bufferHeader", packet);
-        };
+        getMic();
+    }, [])
 
-        recorder.onBuffer = (packet) => {
-            socket.emit("stream", packet);
-        };
-    }, [socket]);
+    function recordAndSend(){
+        const recorder = new MediaRecorder(stream);
+        const chunks = [];
+        recorder.ondataavailable = (e) => {chunks.push(e.data);console.log(e.data)}
+        recorder.onstop = (e) => {
+            let b = new Blob(chunks);
+            console.log(b)
+            socket.emit("stream", b);
+        }
+        setTimeout(()=> recorder.stop(), 10000);
+        recorder.start();
+    }
 
     const onClickMic = () => {
-        const recorder = recorderRef.current;
-        setRecording(!recorder.recording);
-        recorder.recording
-            ? recorder.stopRecording()
-            : recorder.startRecording();
+        if (!recording){
+            i = setInterval(recordAndSend, 10000);
+        }
+        else{
+            clearInterval(i);
+        }
+        setRecording(!recording);
     };
 
     const Icon = recording ? MicOff : Mic;
