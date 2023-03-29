@@ -5,7 +5,7 @@ import { AudioRecorder } from "jnaudiostream";
 export default function MicrophoneButton({ socket }) {
     const [recording, setRecording] = useState(false);
 
-    const recorderRef = useRef(new AudioRecorder({}, 100)); // 1ms
+    const recorderRef = useRef(new AudioRecorder({}, 1000));
 
     useEffect(() => {
         if (!socket) return;
