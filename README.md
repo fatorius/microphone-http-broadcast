@@ -2,7 +2,7 @@
 
 A fork from [WoolDoughnut310/radio-broadcast](https://github.com/WoolDoughnut310/radio-broadcast)
 
-## What's different on this fork?
+## What's different about this fork?
 
 The original repo from [WoolDoughnut310](https://github.com/WoolDoughnut310) is based on its own library, [WoolDoughnut310/jnaudiostream](https://github.com/WoolDoughnut310/jnaudiostream) to record, stream and reproduce audio on the client side.
 
