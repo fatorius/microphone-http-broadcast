@@ -24,7 +24,7 @@ const io = new IOServer(server, {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const outputDir = path.join(__dirname, "../dist");
+const outputDir = path.join(__dirname, "/dist");
 
 let fileSize = 0;
 
