@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/audio", function (req, res){
-    let audiopath = path.join(__dirname, "../output.mp3");
+    let audiopath = path.join(__dirname, "output.mp3");
     
 
     const head = {
@@ -61,7 +61,7 @@ app.get("/audio", function (req, res){
                 .outputOptions('-acodec', 'libmp3lame')
                 .output('output.mp3')
                 .on('end', function() {
-                    let p = path.join(__dirname, "../output.mp3");
+                    let p = path.join(__dirname, "output.mp3");
                     fileSize = fs.statSync(p).size;
                 })
                 .on('error', function(err) {
